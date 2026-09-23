@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-############################################
+###cd#########################################
 # DSI CONSULTING INC. Project setup script #
 ############################################
 # This script creates standard analysis and output directories
@@ -29,21 +29,46 @@ unzip -q rawdata.zip
 
 # 1. Create a directory named data
 
+mkdir data
+
 # 2. Move the ./rawdata directory to ./data/raw (eg. move it into ./data and rename it to raw)
 
+mv ./rawdata ./data/raw
+
 # 3. List the contents of the ./data/raw directory
+
+ls ./data/raw
 
 # 4. Create the directory ./data/processed, 
 #    then create the following sub-directories within it: server_logs, user_logs, and event_logs
 
+mkdir ./data/processed
+cd data/processed
+mkdir server_logs user_logs event_logs
+
 # 5. Copy all server log files (files with "server" in the name AND a .log extension) from ./data/raw to ./data/processed/server_logs
+
+cd ../..
+mv ./data/raw/server*.log ./data/processed/server_logs
+ls ./data/processed/server_logs
 
 # 6. Repeat the above step for user logs and event logs
 
+mv ./data/raw/user*.log ./data/processed/user_logs
+ls ./data/processed/user_logs
+
+mv ./data/raw/event*.log ./data/processed/event_logs
+ls ./data/processed/event_logs
+
 # 7. For user privacy, remove all files containing IP addresses (files with "ipaddr" in the filename) from ./data/raw and ./data/processed/user_logs
 
-# 8. Create a file named ./data/inventory.txt that lists all the files in the subfolders of ./data/processed
+ls ./data/raw
+rm ./data/raw/ipaddr*.txt ./data/processed/user_logs/*ipaddr*.log 
+ls ./data/raw ./data/processed/user_logs/
 
+# 8. Create a file named ./data/inventory.txt that lists all the files in the subfolders of ./data/processed
+ls -R ./data/processed > ./data/inventory.txt
+cat ./data/inventory.txt
 
 ###########################################
 
